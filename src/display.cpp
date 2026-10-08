@@ -7,7 +7,6 @@
 class LGFX : public lgfx::LGFX_Device {
   lgfx::Panel_GC9A01 _panel;
   lgfx::Bus_SPI _bus;
-  lgfx::Light_PWM _light;
 
 public:
   LGFX() {
@@ -43,15 +42,6 @@ public:
       cfg.bus_shared = false;
       _panel.config(cfg);
     }
-    {
-      auto cfg = _light.config();
-      cfg.pin_bl = PIN_LCD_BL;
-      cfg.invert = false;
-      cfg.freq = 44100;
-      cfg.pwm_channel = 7;
-      _light.config(cfg);
-      _panel.setLight(&_light);
-    }
     setPanel(&_panel);
   }
 };
@@ -66,8 +56,11 @@ static const uint32_t C_RED   = 0xC8434E;  // campari red band
 static const uint32_t C_CREAM = 0xF4EBE3;  // circle
 
 void displayInit() {
+  // Backlight: plain on/off (no PWM), switched on after the poster is drawn
+  pinMode(PIN_LCD_BL, OUTPUT);
+  digitalWrite(PIN_LCD_BL, LOW);
+
   tft.init();
-  tft.setBrightness(200);
   tft.setRotation(0);
   tft.fillScreen(C_PAPER);
 
@@ -101,4 +94,6 @@ void displayInit() {
   const int ccx = cx;
   const int ccy = iy + is - r;
   tft.fillCircle(ccx, ccy, r, C_CREAM);
+
+  digitalWrite(PIN_LCD_BL, HIGH);  // light up
 }
