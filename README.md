@@ -10,7 +10,7 @@ A Wi-Fi captive portal for ESP32 that serves a Negroni cocktail poster, plus a m
 
 ## Hardware
 
-Written for the **Guition ESP32-2424S012** (ESP32-C3, 1.28" round 240x240, GC9A01 driver). The board is an assumption, so if the screen stays black, check the pins in `src/board_config.h`. The backlight pin in particular is unverified.
+Written for the **Guition ESP32-C3, 1.28". 
 
 The original `esp32dev` environment still builds the portal alone for any ESP32 without a screen.
 
